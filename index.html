@@ -122,7 +122,8 @@ function triggerJumpscare() {
 }
 
 function randomTimer() {
-  const delay = Math.random() * 20000 + 10000; // 10–30 sec
+  const delay = Math.random() * 5000 + 3000; // 3–8 seconds
+// 10–30 sec
   setTimeout(() => {
     triggerJumpscare();
     randomTimer();
