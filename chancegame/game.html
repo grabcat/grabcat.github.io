@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Match Game</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  .box {
+    font-size: 22px;
+    margin: 15px;
+    word-break: break-all;
+  }
+
+  .match {
+    color: green;
+    font-weight: bold;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  #percent {
+    font-size: 26px;
+    margin-top: 15px;
+    font-weight: bold;
+  }
+
+  #best {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
+  }
+
+  .label {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<h2>Match the Strings</h2>
+
+<div id="top" class="box"></div>
+<button onclick="generate()">Generate</button>
+<div id="bottom" class="box"></div>
+
+<div id="percent"></div>
+
+<div id="best">
+  <div class="label">Best Score:</div>
+  <div id="bestPercent">0%</div>
+
+  <div class="label">Best Top:</div>
+  <div id="bestTop" class="box"></div>
+
+  <div class="label">Best Bottom:</div>
+  <div id="bestBottom" class="box"></div>
+</div>
+
+<script>
+let bestScore = 0;
+let bestTop = "";
+let bestBottom = "";
+
+function randomString(length) {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return result;
+}
+
+function compareStrings(a, b) {
+  let matches = 0;
+  let htmlTop = "";
+  let htmlBottom = "";
+
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] === b[i]) {
+      matches++;
+      htmlTop += `<span class="match">${a[i]}</span>`;
+      htmlBottom += `<span class="match">${b[i]}</span>`;
+    } else {
+      htmlTop += a[i];
+      htmlBottom += b[i];
+    }
+  }
+
+  const percent = Math.round((matches / a.length) * 100);
+  return { htmlTop, htmlBottom, percent };
+}
+
+function getColor(percent) {
+  if (percent < 25) return "red";
+  if (percent < 50) return "orange";
+  if (percent < 75) return "gold";
+  return "green";
+}
+
+function generate() {
+  const topStr = randomString(24);
+  const bottomStr = randomString(24);
+
+  const result = compareStrings(topStr, bottomStr);
+
+  document.getElementById("top").innerHTML = result.htmlTop;
+  document.getElementById("bottom").innerHTML = result.htmlBottom;
+
+  const percentEl = document.getElementById("percent");
+  percentEl.innerText = `Match: ${result.percent}%`;
+  percentEl.style.color = getColor(result.percent);
+
+  // update best
+  if (result.percent > bestScore) {
+    bestScore = result.percent;
+    bestTop = result.htmlTop;
+    bestBottom = result.htmlBottom;
+
+    document.getElementById("bestPercent").innerText = bestScore + "%";
+    document.getElementById("bestPercent").style.color = getColor(bestScore);
+
+    document.getElementById("bestTop").innerHTML = bestTop;
+    document.getElementById("bestBottom").innerHTML = bestBottom;
+  }
+}
+</script>
+
+</body>
+</html>
