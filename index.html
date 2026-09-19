@@ -142,70 +142,6 @@ footer {
     color: #111 !important;
 }
  
-/* ── Projects section ────────────────────────────────────────────── */
-#projects-section {
-    display: none;
-    margin-top: 35px;
-    border-top: 2px solid #3d3d3d;
-    padding-top: 30px;
-}
-#projects-section.visible { display: block; }
-#projects-section > h2 {
-    text-align: center;
-    color: #ffd54a;
-    font-size: 26px;
-    margin-bottom: 20px;
-}
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-@media (max-width: 560px) {
-    .projects-grid { grid-template-columns: 1fr; }
-}
-.project-card {
-    background: #353535;
-    border: 1px solid #4a4a4a;
-    border-radius: 8px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-}
-.project-card h3 {
-    font-size: 18px;
-    color: #ffd54a;
-    margin-bottom: 6px;
-}
- 
-.project-card p {
-    color: #c7c7c7;
-    font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 16px;
-    flex: 1;
-}
-.project-card a {
-    display: block;
-    padding: 10px;
-    border-radius: 6px;
-    font-weight: bold;
-    font-size: 15px;
-    text-align: center;
-    text-decoration: none;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-.btn-download {
-    background: #ffd54a;
-    color: #111;
-}
-.btn-download:hover { background: #e6be35; }
-.btn-open {
-    background: #4ac8ff;
-    color: #111;
-}
-.btn-open:hover { background: #2ab0e8; }
- 
 /* ── Donate modal ────────────────────────────────────────────────── */
 .modal-backdrop {
     position: fixed;
@@ -275,12 +211,7 @@ footer {
  
   <div class="hero-buttons">
     <button onclick="openDonate()">₿ Donate Crypto</button>
-    <button class="btn-ghost" onclick="showProjects()">See Projects</button>
-  </div>
- 
-  <div id="projects-section">
-    <h2>Projects</h2>
-    <div id="projects-container"></div>
+    <button class="btn-ghost" onclick="location.href='pj/index.html'">See Projects</button>
   </div>
  
   <p class="thankyou">
@@ -296,7 +227,7 @@ footer {
   <div class="modal">
     <button class="modal-close" onclick="closeDonate()">✕</button>
     <h2>Donate Crypto</h2>
-    <p class="modal-sub">Copy a wallet address below to send a donation.</p>
+    <p class="modal-sub">you dont have to donate, but i dont make money so :3p>
  
     <div class="wallets">
       <div class="wallet">
@@ -326,72 +257,6 @@ footer {
 </div>
  
 <script>
-// ── PROJECTS ──────────────────────────────────────────────────────────────────
-// type: "tool" → shows a Download button (needs a zip path)
-// type: "site" → shows an Open button (needs a url path)
-//
-// To add a tool:  { type: "tool", title: "...", desc: "...", zip: "pjs/my-tool/file.zip" }
-// To add a site:  { type: "site", title: "...", desc: "...", url: "pjs/my-site/index.html" }
- 
-const PROJECTS = [
-  {
-    type: "tool",
-    title: "CatPaste",
-    desc: "clipboard tool, host on your network for just you or publish it on a site!",
-    zip: "pjs/catpaste/file.zip"
-  },
-  {
-    type: "site",
-    title: "RandomCat",
-    desc: "Do you love cats? Well, on this site you can get a bunch of (cute) cat pictures :3",
-    url: "pjs/randomcat/index.html"
-  },
- {
-    type: "site",
-    title: "ChanceGame",
-    desc: "Do you have time to waste? so much time you can get a 1 in 10 undecillion chance? Try it out!",
-    url: "pjs/chancegame/game.html"
-  },
-];
- 
-function showProjects() {
-  const section = document.getElementById('projects-section');
-  section.classList.add('visible');
-  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
- 
-  const container = document.getElementById('projects-container');
-  if (container.hasChildNodes()) return;
- 
-  if (!PROJECTS.length) {
-    container.innerHTML = '<p style="text-align:center;color:#888;font-size:14px;padding:20px 0;">No projects yet.</p>';
-    return;
-  }
- 
-  const grid = document.createElement('div');
-  grid.className = 'projects-grid';
- 
-  for (const p of PROJECTS) {
-    const isSite = p.type === 'site';
-    const card = document.createElement('div');
-    card.className = 'project-card';
-    card.innerHTML = `
-      <h3>${esc(p.title)}</h3>
-      <p>${esc(p.desc)}</p>
-      ${isSite
-        ? `<a href="${esc(p.url)}" target="_blank" class="btn-open">Open →</a>`
-        : `<a href="${esc(p.zip)}" download class="btn-download">Download</a>`
-      }
-    `;
-    grid.appendChild(card);
-  }
- 
-  container.appendChild(grid);
-}
- 
-function esc(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
- 
 // ── DONATE MODAL ──────────────────────────────────────────────────────────────
 function openDonate() {
   document.getElementById('donate-modal').classList.add('open');
