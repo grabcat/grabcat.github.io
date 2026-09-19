@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects · GrabCat</title>
+<style>
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background: #1f1f1f;
+    color: #f5f5f5;
+    padding: 30px;
+}
+/* Main box */
+.container {
+    max-width: 850px;
+    margin: 0 auto;
+    background: #2b2b2b;
+    border: 2px solid #3d3d3d;
+    border-radius: 10px;
+    padding: 35px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    position: relative;
+}
+/* Back X (top corner, goes back to the home page) */
+.back-x {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 1;
+    color: #ffd54a;
+    text-decoration: none;
+    background: transparent;
+    border: 2px solid #4a4a4a;
+    border-radius: 12px;
+    transition: border-color 0.15s, background 0.15s;
+    z-index: 10;
+}
+.back-x:hover {
+    border-color: #ffd54a;
+    background: rgba(255, 213, 74, 0.1);
+}
+/* Cat image */
+.cat {
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 16px auto;
+    display: block;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid #444;
+}
+/* Heading */
+h1 {
+    text-align: center;
+    font-size: 38px;
+    color: #ffd54a;
+    margin-bottom: 10px;
+}
+/* Subtitle */
+.subtitle {
+    text-align: center;
+    color: #c7c7c7;
+    margin-bottom: 25px;
+    font-size: 17px;
+    line-height: 1.5;
+}
+/* Search box */
+.search {
+    width: 100%;
+    padding: 12px 16px;
+    background: #1a1a1a;
+    border: 1px solid #555;
+    border-radius: 10px;
+    color: #f5f5f5;
+    font-size: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-bottom: 25px;
+    outline: none;
+}
+.search::placeholder { color: #888; }
+.search:focus { border-color: #ffd54a; }
+/* Projects grid */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+/* Project card - rounded cube */
+.project-card {
+    background: #353535;
+    border: 1px solid #4a4a4a;
+    border-radius: 16px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.15s, border-color 0.15s;
+}
+.project-card:hover {
+    transform: translateY(-2px);
+    border-color: #6a6a6a;
+}
+.project-card h3 {
+    font-size: 18px;
+    color: #ffd54a;
+    margin-bottom: 6px;
+}
+.project-card p {
+    color: #c7c7c7;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    flex: 1;
+}
+.project-card a {
+    display: block;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center;
+    text-decoration: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.btn-download {
+    background: #ffd54a;
+    color: #111;
+}
+.btn-download:hover { background: #e6be35; }
+.btn-open {
+    background: #4ac8ff;
+    color: #111;
+}
+.btn-open:hover { background: #2ab0e8; }
+/* Empty search result */
+.empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+    padding: 30px 0;
+}
+footer {
+    margin-top: 25px;
+    text-align: center;
+    color: #888;
+    font-size: 13px;
+}
+/* Mobile */
+@media (max-width: 600px) {
+    body { padding: 15px; }
+    .container { padding: 20px; }
+    h1 { font-size: 30px; }
+    .subtitle { font-size: 15px; }
+    .cat { width: 90px; height: 90px; }
+    .back-x { width: 38px; height: 38px; font-size: 18px; top: 12px; right: 12px; }
+}
+@media (max-width: 560px) {
+    .projects-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <a class="back-x" href="../index.html" title="Back" aria-label="Back to home">✕</a>
+
+  <img class="cat" src="https://cataas.com/cat" alt="GrabCat" onerror="this.style.display='none'">
+
+  <h1>Projects</h1>
+  <p class="subtitle">
+    all my projects in one place, search away :3
+  </p>
+
+  <input type="text" id="search" class="search" placeholder="search projects..." autocomplete="off" autofocus>
+
+  <div class="projects-grid" id="grid"></div>
+
+  <footer>grabcat grabby cat is grabbing cats OH NOES.</footer>
+
+</div>
+
+<script>
+// ── PROJECTS ──────────────────────────────────────────────────────────────────
+// type: "tool" → shows a Download button (needs a zip path)
+// type: "site" → shows an Open button (needs a url path)
+//
+// Paths are relative to the site root (the "pjs/..." style still works,
+// they get the ../ prefix automatically because this page lives in /pj/).
+//
+// To add a tool:  { type: "tool", title: "...", desc: "...", zip: "pjs/my-tool/file.zip" }
+// To add a site:  { type: "site", title: "...", desc: "...", url: "pjs/my-site/index.html" }
+
+const PROJECTS = [
+  {
+    type: "tool",
+    title: "Modded Gtag",
+    desc: "a gorilla tag copy that has mods in.",
+    zip: "pjs/gtagmodapk/projectcargo-gtag.apk"
+  },
+];
+
+const BASE = "../"; // this page lives in /pj/, project files live at the site root
+
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function render(list) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+
+  if (!list.length) {
+    grid.innerHTML = '<p class="empty">no projects found :( try something else</p>';
+    return;
+  }
+
+  for (const p of list) {
+    const isSite = p.type === 'site';
+    const card = document.createElement('div');
+    card.className = 'project-card';
+    card.innerHTML = `
+      <h3>${esc(p.title)}</h3>
+      <p>${esc(p.desc)}</p>
+      ${isSite
+        ? `<a href="${BASE}${esc(p.url)}" target="_blank" class="btn-open">Open →</a>`
+        : `<a href="${BASE}${esc(p.zip)}" download class="btn-download">Download</a>`
+      }
+    `;
+    grid.appendChild(card);
+  }
+}
+
+function filterProjects() {
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  render(!q ? PROJECTS : PROJECTS.filter(p =>
+    (p.title + ' ' + p.desc).toLowerCase().includes(q)
+  ));
+}
+
+document.getElementById('search').addEventListener('input', filterProjects);
+
+// Escape key also goes back to the home page
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') window.location.href = '../index.html';
+});
+
+render(PROJECTS);
+</script>
+</body>
+</html>
