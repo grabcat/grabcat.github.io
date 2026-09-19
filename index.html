@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GrabCat</title>
+<title>Projects · GrabCat</title>
 <style>
 /* Reset */
 * {
@@ -26,12 +27,38 @@ body {
     border-radius: 10px;
     padding: 35px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    position: relative;
+}
+/* Back X (top corner, goes back to the home page) */
+.back-x {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 1;
+    color: #ffd54a;
+    text-decoration: none;
+    background: transparent;
+    border: 2px solid #4a4a4a;
+    border-radius: 12px;
+    transition: border-color 0.15s, background 0.15s;
+    z-index: 10;
+}
+.back-x:hover {
+    border-color: #ffd54a;
+    background: rgba(255, 213, 74, 0.1);
 }
 /* Cat image */
 .cat {
-    width: 140px;
-    height: 140px;
-    margin: 0 auto 20px auto;
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 16px auto;
     display: block;
     border-radius: 12px;
     object-fit: cover;
@@ -40,7 +67,7 @@ body {
 /* Heading */
 h1 {
     text-align: center;
-    font-size: 42px;
+    font-size: 38px;
     color: #ffd54a;
     margin-bottom: 10px;
 }
@@ -48,65 +75,87 @@ h1 {
 .subtitle {
     text-align: center;
     color: #c7c7c7;
-    margin-bottom: 30px;
-    font-size: 18px;
+    margin-bottom: 25px;
+    font-size: 17px;
     line-height: 1.5;
 }
-/* Wallet grid */
-.wallets {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-}
-/* Wallet card */
-.wallet {
-    background: #353535;
-    border: 1px solid #4a4a4a;
-    border-radius: 8px;
-    padding: 20px;
-}
-.wallet h2 {
-    font-size: 22px;
-    margin-bottom: 12px;
-    color: #ffd54a;
-}
-/* Address box */
-.address {
+/* Search box */
+.search {
+    width: 100%;
+    padding: 12px 16px;
     background: #1a1a1a;
     border: 1px solid #555;
-    border-radius: 6px;
-    padding: 10px;
-    font-family: Consolas, monospace;
-    font-size: 14px;
-    line-height: 1.4;
-    word-break: break-all;
-    margin-bottom: 12px;
-}
-/* Buttons */
-button {
-    width: 100%;
-    padding: 10px;
-    background: #ffd54a;
-    color: #111;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
+    border-radius: 10px;
+    color: #f5f5f5;
     font-size: 15px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-bottom: 25px;
+    outline: none;
 }
-button:hover {
-    background: #e6be35;
+.search::placeholder { color: #888; }
+.search:focus { border-color: #ffd54a; }
+/* Projects grid */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
 }
-/* Footer text */
-.thankyou {
-    margin-top: 30px;
-    text-align: center;
+/* Project card - rounded cube */
+.project-card {
+    background: #353535;
+    border: 1px solid #4a4a4a;
+    border-radius: 16px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.15s, border-color 0.15s;
+}
+.project-card:hover {
+    transform: translateY(-2px);
+    border-color: #6a6a6a;
+}
+.project-card h3 {
+    font-size: 18px;
+    color: #ffd54a;
+    margin-bottom: 6px;
+}
+.project-card p {
     color: #c7c7c7;
+    font-size: 14px;
     line-height: 1.6;
+    margin-bottom: 16px;
+    flex: 1;
+}
+.project-card a {
+    display: block;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center;
+    text-decoration: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.btn-download {
+    background: #ffd54a;
+    color: #111;
+}
+.btn-download:hover { background: #e6be35; }
+.btn-open {
+    background: #4ac8ff;
+    color: #111;
+}
+.btn-open:hover { background: #2ab0e8; }
+/* Empty search result */
+.empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+    padding: 30px 0;
 }
 footer {
-    margin-top: 20px;
+    margin-top: 25px;
     text-align: center;
     color: #888;
     font-size: 13px;
@@ -115,174 +164,103 @@ footer {
 @media (max-width: 600px) {
     body { padding: 15px; }
     .container { padding: 20px; }
-    h1 { font-size: 32px; }
-    .subtitle { font-size: 16px; }
-    .cat { width: 100px; height: 100px; }
+    h1 { font-size: 30px; }
+    .subtitle { font-size: 15px; }
+    .cat { width: 90px; height: 90px; }
+    .back-x { width: 38px; height: 38px; font-size: 18px; top: 12px; right: 12px; }
 }
- 
-/* ── Hero buttons ────────────────────────────────────────────────── */
-.hero-buttons {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-}
-.hero-buttons button {
-    width: auto;
-    padding: 10px 28px;
-}
-.btn-ghost {
-    background: transparent !important;
-    color: #ffd54a !important;
-    border: 2px solid #ffd54a !important;
-}
-.btn-ghost:hover {
-    background: #ffd54a !important;
-    color: #111 !important;
-}
- 
-/* ── Donate modal ────────────────────────────────────────────────── */
-.modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.78);
-    z-index: 500;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-.modal-backdrop.open { display: flex; }
-.modal {
-    background: #2b2b2b;
-    border: 2px solid #3d3d3d;
-    border-radius: 10px;
-    padding: 30px;
-    width: 100%;
-    max-width: 600px;
-    position: relative;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-    max-height: 90vh;
-    overflow-y: auto;
-}
-.modal-close {
-    position: absolute;
-    top: 12px;
-    right: 14px;
-    width: auto;
-    background: none;
-    color: #888;
-    padding: 2px 10px;
-    font-weight: normal;
-    font-size: 18px;
-}
-.modal-close:hover { background: none; color: #f5f5f5; }
-.modal > h2 {
-    font-size: 26px;
-    color: #ffd54a;
-    margin-bottom: 6px;
-}
-.modal-sub {
-    color: #c7c7c7;
-    font-size: 14px;
-    margin-bottom: 22px;
-}
-.donate-note {
-    margin-top: 18px;
-    font-size: 12px;
-    color: #888;
-    line-height: 1.6;
-    font-style: italic;
-    text-align: center;
+@media (max-width: 560px) {
+    .projects-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
- 
+
 <div class="container">
- 
+
+  <a class="back-x" href="../index.html" title="Back" aria-label="Back to home">✕</a>
+
   <img class="cat" src="https://cataas.com/cat" alt="GrabCat" onerror="this.style.display='none'">
- 
-  <h1>GrabCat</h1>
+
+  <h1>Projects</h1>
   <p class="subtitle">
-    all my projects and donation in one place :3
+    all my projects in one place, search away :3
   </p>
- 
-  <div class="hero-buttons">
-    <button onclick="openDonate()">₿ Donate Crypto</button>
-    <button class="btn-ghost" onclick="location.href='pj/index.html'">See Projects</button>
-  </div>
- 
-  <p class="thankyou">
-    awesome stuff (mostly) open source1 :D
-  </p>
- 
+
+  <input type="text" id="search" class="search" placeholder="search projects..." autocomplete="off" autofocus>
+
+  <div class="projects-grid" id="grid"></div>
+
   <footer>grabcat grabby cat is grabbing cats OH NOES.</footer>
- 
+
 </div>
- 
-<!-- Donate modal -->
-<div class="modal-backdrop" id="donate-modal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeDonate()">✕</button>
-    <h2>Donate Crypto</h2>
-    <p class="modal-sub">you dont have to donate, but i dont make money so :3p>
- 
-    <div class="wallets">
-      <div class="wallet">
-        <h2>Bitcoin</h2>
-        <div class="address" id="addr-btc">bc1q93540x8sqyl8j087hscpxnygg66unefhz5mzfm</div>
-        <button onclick="copyAddr('addr-btc', this)">Copy BTC Address</button>
-      </div>
-      <div class="wallet">
-        <h2>Ethereum</h2>
-        <div class="address" id="addr-eth">0xa5fd336E67a8D3a7B2ff7FD8E8bb80691ee0F478</div>
-        <button onclick="copyAddr('addr-eth', this)">Copy ETH Address</button>
-      </div>
-      <div class="wallet">
-        <h2>Solana</h2>
-        <div class="address" id="addr-sol">7SktxTHWZimutiynGFZmXp3UoKEe2rPqSBmjz9RBx8C5</div>
-        <button onclick="copyAddr('addr-sol', this)">Copy SOL Address</button>
-      </div>
-      <div class="wallet">
-        <h2>BNB</h2>
-        <div class="address" id="addr-xmr">0xa5fd336E67a8D3a7B2ff7FD8E8bb80691ee0F478</div>
-        <button onclick="copyAddr('addr-xmr', this)">Copy BNB Address</button>
-      </div>
-    </div>
- 
-    <p class="donate-note">thamks for even thinking about donating, i luv you :3</p>
-  </div>
-</div>
- 
+
 <script>
-// ── DONATE MODAL ──────────────────────────────────────────────────────────────
-function openDonate() {
-  document.getElementById('donate-modal').classList.add('open');
-  document.body.style.overflow = 'hidden';
+// ── PROJECTS ──────────────────────────────────────────────────────────────────
+// type: "tool" → shows a Download button (needs a zip path)
+// type: "site" → shows an Open button (needs a url path)
+//
+// Paths are relative to the site root (the "pjs/..." style still works,
+// they get the ../ prefix automatically because this page lives in /pj/).
+//
+// To add a tool:  { type: "tool", title: "...", desc: "...", zip: "pjs/my-tool/file.zip" }
+// To add a site:  { type: "site", title: "...", desc: "...", url: "pjs/my-site/index.html" }
+
+const PROJECTS = [
+  {
+    type: "tool",
+    title: "Modded Gtag",
+    desc: "a gorilla tag copy that has mods in.",
+    zip: "pjs/gtagmodapk/projectcargo-gtag.apk"
+  },
+];
+
+const BASE = "../"; // this page lives in /pj/, project files live at the site root
+
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-function closeDonate() {
-  document.getElementById('donate-modal').classList.remove('open');
-  document.body.style.overflow = '';
+
+function render(list) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+
+  if (!list.length) {
+    grid.innerHTML = '<p class="empty">no projects found :( try something else</p>';
+    return;
+  }
+
+  for (const p of list) {
+    const isSite = p.type === 'site';
+    const card = document.createElement('div');
+    card.className = 'project-card';
+    card.innerHTML = `
+      <h3>${esc(p.title)}</h3>
+      <p>${esc(p.desc)}</p>
+      ${isSite
+        ? `<a href="${BASE}${esc(p.url)}" target="_blank" class="btn-open">Open →</a>`
+        : `<a href="${BASE}${esc(p.zip)}" download class="btn-download">Download</a>`
+      }
+    `;
+    grid.appendChild(card);
+  }
 }
-document.getElementById('donate-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeDonate();
-});
+
+function filterProjects() {
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  render(!q ? PROJECTS : PROJECTS.filter(p =>
+    (p.title + ' ' + p.desc).toLowerCase().includes(q)
+  ));
+}
+
+document.getElementById('search').addEventListener('input', filterProjects);
+
+// Escape key also goes back to the home page
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeDonate();
+  if (e.key === 'Escape') window.location.href = '../index.html';
 });
-function copyAddr(id, btn) {
-  const text = document.getElementById(id).textContent.trim();
-  const orig = btn.textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = 'Copied!';
-    setTimeout(() => { btn.textContent = orig; }, 2000);
-  }).catch(() => {
-    btn.textContent = 'Failed';
-    setTimeout(() => { btn.textContent = orig; }, 2000);
-  });
-}
+
+render(PROJECTS);
 </script>
 </body>
 </html>
